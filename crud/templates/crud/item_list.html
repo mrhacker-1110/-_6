@@ -1,0 +1,28 @@
+{% extends 'crud/base.html' %}
+{% block title %}Список{% endblock %}
+{% block content %}
+<h2>Список записей</h2>
+<form method="get">
+    <input type="text" name="q" value="{{ q }}" placeholder="Поиск по названию">
+    <button type="submit">Найти</button>
+    <a href="{% url 'crud:item_create' %}">+ Добавить</a>
+</form>
+<br>
+<table>
+    <tr><th>ID</th><th>Название</th><th>Цена</th><th>Кол-во</th><th>Действия</th></tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.pk }}</td>
+        <td><a href="{% url 'crud:item_detail' item.pk %}">{{ item.name }}</a></td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>
+            <a href="{% url 'crud:item_update' item.pk %}">Изменить</a> |
+            <a href="{% url 'crud:item_delete' item.pk %}">Удалить</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Записей нет.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
